@@ -54,6 +54,18 @@ app.get('/api/stations', (request, response) => {
     }))
 })
 
+app.get('/api/stations/:id', (request, response) => {
+  const id = request.params.id
+  Station.find({ID: id})
+    .then(station => {
+      response.json(station)
+      console.log("selected station: ", station)
+    })
+    .catch((error => {
+      console.log('error trying to find selected station data:', error.message);
+    }))
+})
+
 // get all journeys, but show only the first 1000 
 app.get('/api/journeys', (request, response) => {
   Journey.find({})
@@ -71,7 +83,6 @@ app.get('/api/journeys', (request, response) => {
 // get all journeys based on the departure_id
 app.get('/api/journeys/departure/:id', (request, response) => {
   const id = request.params.id
-  console.log("id: ", id)
   Journey.find({departure_id: id})
     .then(journeys => {
       response.json(journeys)
