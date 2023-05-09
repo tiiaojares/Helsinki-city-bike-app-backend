@@ -70,7 +70,9 @@ app.get('/api/journeys', (request, response) => {
 
 // get all journeys based on the departure_id
 app.get('/api/journeys/departure/:id', (request, response) => {
-  Journey.find({departure_id: request.params.id})
+  const id = request.params.id
+  console.log("id: ", id)
+  Journey.find({departure_id: id})
     .then(journeys => {
       response.json(journeys)
       console.log("journeys based on the departure station id: ", journeys.length)
@@ -82,9 +84,11 @@ app.get('/api/journeys/departure/:id', (request, response) => {
 
 //get all journeys based on the return_id
 app.get('/api/journeys/return/:id', (request, response) => {
-  Journey.find({departure_id: request.params.id})
+  const id = request.params.id
+  Journey.find({return_id: id})
     .then(journeys => {
       response.json(journeys)
+      console.log("id: ", id)
       console.log("journeys based on the return station id: ", journeys.length)
     })
     .catch((error => {
