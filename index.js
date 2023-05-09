@@ -54,12 +54,14 @@ app.get('/api/stations', (request, response) => {
     }))
 })
 
-// get all journeys
+// get all journeys, but show only the first 1000 
 app.get('/api/journeys', (request, response) => {
-  Journey.find({departure_id: "094"})
+  Journey.find({})
+    .limit(1000)
     .then(journeys => {
-      response.json(journeys)
-      console.log("journeys: ", journeys.length)
+      const journeysToFrontend = journeys.slice(0, 1000);
+      response.json(journeysToFrontend)
+      console.log("1000 from all journeys sent to frontend")
     })
     .catch((error => {
       console.log('error trying to find journey data:', error.message);
@@ -71,7 +73,7 @@ app.get('/api/journeys/departure/:id', (request, response) => {
   Journey.find({departure_id: request.params.id})
     .then(journeys => {
       response.json(journeys)
-      console.log("journeys: ", journeys.length)
+      console.log("journeys based on the departure station id: ", journeys.length)
     })
     .catch((error => {
       console.log('error trying to find journey data based on departure id:', error.message);
@@ -83,7 +85,7 @@ app.get('/api/journeys/return/:id', (request, response) => {
   Journey.find({departure_id: request.params.id})
     .then(journeys => {
       response.json(journeys)
-      console.log("journeys: ", journeys.length)
+      console.log("journeys based on the return station id: ", journeys.length)
     })
     .catch((error => {
       console.log('error trying to find journey data based on return id:', error.message);
