@@ -80,9 +80,28 @@ app.get('/api/journeys', (request, response) => {
     }))
 })
 
+// get all journeys based on the departure and return satation
+app.get('/api/journeys/find/:dep/:ret', (request, response) => {
+  const departureStation = request.params.dep
+  const returnStation = request.params.ret
+  console.log("url dep: ", request.params.dep)
+  console.log("url ret: ", request.params.ret)
+  
+  Journey.find({departure_name: departureStation, return_name: returnStation})
+    .then(journeys => {
+      response.json(journeys)
+      console.log("journeys based on the departure and return station: ", journeys.length)
+    })
+    .catch((error => {
+      console.log('error trying to find journey data based on departure and return station:', error.message);
+    }))
+})
+
+
 // get all journeys based on the departure_id
 app.get('/api/journeys/departure/:id', (request, response) => {
   const id = request.params.id
+  console.log("id: ", id)
   Journey.find({departure_id: id})
     .then(journeys => {
       response.json(journeys)
