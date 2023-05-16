@@ -155,6 +155,37 @@ app.get('/api/journeys/return/:id', (request, response) => {
     }))
 })
 
+app.post('/api/journeys', (request, response) => {
+  const body = request.body;
+  console.log(body)
+
+  if ((!body.departure_id) || (!body.departure_name) || (!body.return_id) || (!body.return_name) || (!body.distance) || (!body.duration)) {
+    return response.status(400).json({
+      error: 'some information missing'
+    })
+  }
+
+  const journey = new Journey({
+    departure_id: body.departure_id,
+    departure_name: body.departure_name,
+    return_id: body.return_id,
+    return_name: body.return_name,
+    distance: body.distance,
+    duration: body.duration
+  })
+
+  journey.save().then(savedJourney => {
+    response.json(savedJourney)
+  })
+  .catch(error => {
+    console.log('error trying to add new journey:', error.message);
+    response.status(400).json({
+      error: ('error trying to add new journey:', error.message)
+    })
+  })
+
+})
+
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
