@@ -66,6 +66,36 @@ app.get('/api/stations/:id', (request, response) => {
     }))
 })
 
+app.post('/api/stations', (request, response) => {
+  const body = request.body;
+
+  if ((!body.ID) || (!body.Nimi) || (!body.Osoite) || (!body.Kaupunki) || (!body.Kapasiteet)) {
+    return response.status(400).json({
+      error: 'some information missing'
+    })
+  }
+
+  const station = new Station({
+    ID: body.ID,
+    Nimi: body.Nimi,
+    Osoite: body.Osoite,
+    Kaupunki: body.Kaupunki,
+    Kapasiteet: body.Kapasiteet,
+  })
+
+  station.save().then(savedStation => {
+    response.json(savedStation)
+  })
+  .catch(error => {
+    console.log('error trying to add new station:', error.message);
+  })
+
+})
+
+
+
+
+
 // get all journeys, but show only the first 1000 
 app.get('/api/journeys', (request, response) => {
   Journey.find({})
@@ -105,7 +135,7 @@ app.get('/api/journeys/departure/:id', (request, response) => {
   Journey.find({departure_id: id})
     .then(journeys => {
       response.json(journeys)
-      console.log("journeys based on the departure station id: ", journeys.length)
+      console.log("journeys based on the departure station id", id, ":", journeys.length)
     })
     .catch((error => {
       console.log('error trying to find journey data based on departure id:', error.message);
@@ -118,8 +148,7 @@ app.get('/api/journeys/return/:id', (request, response) => {
   Journey.find({return_id: id})
     .then(journeys => {
       response.json(journeys)
-      console.log("id: ", id)
-      console.log("journeys based on the return station id: ", journeys.length)
+      console.log("journeys based on the return station id", id, ":", journeys.length)
     })
     .catch((error => {
       console.log('error trying to find journey data based on return id:', error.message);
