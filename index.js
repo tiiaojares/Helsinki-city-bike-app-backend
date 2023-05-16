@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 app.use(cors());
 
+app.use(express.json());
+
 
 // get the station-data from the mongoDB
 
@@ -68,6 +70,7 @@ app.get('/api/stations/:id', (request, response) => {
 
 app.post('/api/stations', (request, response) => {
   const body = request.body;
+  console.log(body)
 
   if ((!body.ID) || (!body.Nimi) || (!body.Osoite) || (!body.Kaupunki) || (!body.Kapasiteet)) {
     return response.status(400).json({
@@ -91,9 +94,6 @@ app.post('/api/stations', (request, response) => {
   })
 
 })
-
-
-
 
 
 // get all journeys, but show only the first 1000 
