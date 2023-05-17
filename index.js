@@ -4,9 +4,13 @@ const express = require('express');
 const app = express();
 
 const Station = require('./models/station');
-const Journey = require('./models/journey')
+const Journey = require('./models/journey');
+
+const mongoose = require('mongoose');
 
 const cors = require('cors');
+
+app.use(express.static('build'));
 app.use(cors());
 
 app.use(express.json());
