@@ -3,6 +3,9 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+const Station = require('./models/station');
+const Journey = require('./models/journey')
+
 const mongoose = require('mongoose');
 //mongoose.set('strictQuery',false);
 
@@ -14,35 +17,35 @@ app.use(express.json());
 
 // get the station-data from the mongoDB
 
-const url_station = process.env.MONGODB_URI;
-const DB1 = mongoose.createConnection(url_station);
+// const url_station = process.env.MONGODB_URI;
+// const DB1 = mongoose.createConnection(url_station);
 
-const stationSchema = new mongoose.Schema({
-  ID: Number,
-  Nimi: String,
-  Osoite: String,
-  Kaupunki: String,
-  Kapasiteet: Number,
+// const stationSchema = new mongoose.Schema({
+//   ID: Number,
+//   Nimi: String,
+//   Osoite: String,
+//   Kaupunki: String,
+//   Kapasiteet: Number,
  
-})
+// })
 
-const Station = DB1.model('Station', stationSchema);
+// const Station = DB1.model('Station', stationSchema);
 
 // get the journey-data from the mongoDB
 
-const url_journey = process.env.MONGODB_JOURNEY_URI;
-const DB2 = mongoose.createConnection(url_journey);
+// const url_journey = process.env.MONGODB_JOURNEY_URI;
+// const DB2 = mongoose.createConnection(url_journey);
 
-const journeySchema= new mongoose.Schema({
-  departure_id: String,
-  departure_name: String,
-  return_id: String,
-  return_name: String,
-  distance: String,
-  duration: String
-})
+// const journeySchema= new mongoose.Schema({
+//   departure_id: String,
+//   departure_name: String,
+//   return_id: String,
+//   return_name: String,
+//   distance: String,
+//   duration: String
+// })
 
-const Journey = DB2.model('Journey', journeySchema)
+// const Journey = DB2.model('Journey', journeySchema)
 
 //get All stations
 app.get('/api/stations', (request, response) => {
